@@ -57,3 +57,11 @@ Search results are kept in the URL, e.g. `/app/claim/search?tab=patient&mode=dob
 Provider TINs: `273377866` (Sanjay Srivatsa Inc, Fresno) and `841692305` (Valley Heart & Vascular).
 ~50 claims across 18 patients are generated deterministically in `src/data.ts` (processed, pended, denied, in-process, adjusted) — the data is identical on every load.
 Flags and remittance read/unread state are saved per browser.
+
+## Deploy to an Ubuntu server (nginx)
+
+```bash
+./deploy.sh /path/to/key.pem ubuntu@3.6.106.238
+```
+
+Builds the app, uploads it, installs/configures nginx on port 80 (with SPA route fallback). The EC2 security group must allow inbound TCP 80 (and 22 for the deploy).
