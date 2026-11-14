@@ -61,7 +61,9 @@ Flags and remittance read/unread state are saved per browser.
 ## Deploy to an Ubuntu server (nginx)
 
 ```bash
-./deploy.sh /path/to/key.pem ubuntu@3.6.106.238
+./deploy.sh /path/to/key.pem ubuntu@3.6.106.238 8080
 ```
 
-Builds the app, uploads it, installs/configures nginx on port 80 (with SPA route fallback). The EC2 security group must allow inbound TCP 80 (and 22 for the deploy).
+The last argument is the port (any free port, default `8080`; use `80` for a link with no port).
+The script builds the app, uploads it, and configures nginx on that port (with SPA route fallback).
+The link is then `http://3.6.106.238:8080/`. The EC2 security group must allow inbound TCP on that port (and 22 for the deploy).
