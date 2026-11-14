@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+import { X509Certificate } from 'node:crypto'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
@@ -16,7 +17,19 @@ function loadHttps() {
   }
 }
 const https = loadHttps()
-if (https) console.log(`[ssl] HTTPS enabled with ${certfile}`)
+if (https) {
+  console.log(`[ssl] HTTPS enabled with ${certfile}`)
+  try {
+    const c = new X509Certificate(https.cert) // first cert in the bundle = the site certificate
+    const cn = (c.subject.match(/CN=([^\n,]+)/) || [])[1] || c.subject
+    console.log(`[ssl] Certificate name: ${cn}`)
+    if (c.subjectAltName) console.log(`[ssl] Valid for:        ${c.subjectAltName.replace(/DNS:/g, '')}`)
+    console.log(`[ssl] Issued by:        ${(c.issuer.match(/CN=([^\n,]+)/) || [])[1] || c.issuer}`)
+    console.log(`[ssl] Expires:          ${c.validTo}`)
+  } catch (e) {
+    console.warn(`[ssl] could not read certificate details: ${(e as Error).message}`)
+  }
+}
 
 export default defineConfig({
   plugins: [react()],
