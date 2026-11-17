@@ -8,6 +8,7 @@ import Claims from './pages/Claims'
 import Results from './pages/Results'
 import Summary from './pages/Summary'
 import InfoPage from './pages/InfoPage'
+import DemoPhone from './pages/DemoPhone'
 
 function RequireAuth({ children }: { children: ReactNode }) {
   const s = auth.stage()
@@ -22,6 +23,7 @@ export default function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/mfa" element={<Mfa />} />
+        <Route path="/demo-phone" element={<DemoPhone />} />
         <Route element={<RequireAuth><Layout /></RequireAuth>}>
           <Route path="/claims" element={<Claims />} />
           <Route path="/claims/results" element={<Results />} />

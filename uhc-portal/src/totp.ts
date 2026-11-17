@@ -83,11 +83,11 @@ export function totp(secret: string, time = Date.now(), step = 30, digits = 6): 
 }
 
 /** Accepts the current code plus one 30s step either side (clock drift). */
-export function verifyTotp(secret: string, code: string, window = 1): boolean {
+export function verifyTotp(secret: string, code: string, window = 1, step = 30): boolean {
   const c = code.replace(/\s+/g, '')
   if (!/^\d{6}$/.test(c)) return false
   for (let i = -window; i <= window; i++) {
-    if (totp(secret, Date.now() + i * 30000) === c) return true
+    if (totp(secret, Date.now() + i * step * 1000, step) === c) return true
   }
   return false
 }
